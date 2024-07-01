@@ -1,0 +1,33 @@
+.day {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 160px;
+  padding: 16px;
+  gap: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &.holiday div p {
+    color: rgb(230, 60, 94);
+  }
+
+  &.isFromOtherMonth {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.date {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #e8e8e8;
+  justify-content: flex-end;
+
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #313030;
+  }
+}
