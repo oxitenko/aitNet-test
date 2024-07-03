@@ -3,6 +3,7 @@ import Day from '../Day/Day';
 import { MonthData } from '../../types/types';
 import { useState } from 'react';
 import { daysName, month } from '../../utils/moment';
+import Modal from '../Modal/Modal';
 
 interface Props {
   yearCalendar: MonthData[];
@@ -10,6 +11,8 @@ interface Props {
 
 const Calendar = ({ yearCalendar }: Props) => {
   const [currentMonth, setCurrentMonth] = useState(month);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDayId, setSelectedDayId] = useState<string>('');
 
   const handlePrevMonth = () => {
     setCurrentMonth((prev) => (prev > 0 ? prev - 1 : 11));
@@ -17,6 +20,16 @@ const Calendar = ({ yearCalendar }: Props) => {
 
   const handleNextMonth = () => {
     setCurrentMonth((prev) => (prev < 11 ? prev + 1 : 0));
+  };
+
+  const handleShowModal = (dayId: string) => {
+    setShowModal(true);
+    setSelectedDayId(dayId);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedDayId('');
   };
 
   return (
@@ -56,15 +69,24 @@ const Calendar = ({ yearCalendar }: Props) => {
                 week.week.map((day) => (
                   <Day
                     key={day.id}
+                    id={day.id}
                     day={day.day}
                     holiday={day.holiday}
                     isFromOtherMonth={day.isFromOtherMonth}
+                    onOpen={() =>
+                      day.id !== undefined && handleShowModal(day.id)
+                    }
                   />
                 )),
               ),
             )}
         </div>
       </ul>
+      <Modal
+        showModal={showModal}
+        onClose={handleCloseModal}
+        dayId={selectedDayId}
+      />
     </>
   );
 };
